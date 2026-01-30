@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Electro Shop</a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <!--<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Signup.html">Signup</a></li>-->
+                    <!--<li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>-->
+                    <li class="nav-item" id="navLogout" style="display:none;"><a class="nav-link" href="#" id="logoutLink">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="logsign-container">
+        <img class="banner-image mainimg" src="https://static.wixstatic.com/media/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png/v1/fill/w_1268,h_819,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png" />
+        <form id="loginform" class="needs-validation logsign" novalidate>
+            <div class="card shadow loginCard">
+                <div class="card-body">
+                    <h2 class="text-center mb-3 text-white text-decoration-underline pb-2">Login!</h2>
+                    <p class="text-white">E-mail :</p>
+                    <input class="form-control mb-3 bg-black text-white loginInput" id="loginEmail" placeholder="Enter Your Email">
+                    <p class="text-white">Password :</p>
+                    <input class="form-control mb-3 bg-black text-white loginInput" id="loginPassword" type="password" placeholder="Enter Your Password">
+
+                    <button id="loginBtn" class="btn text-white w-100 loginBtn mt-2">Login</button>
+
+                    <p class="text-center text-white mt-3">
+                         Doesn't have an account? <a href="signup.html" class="text-white">Signup</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+   
+
+
+
+
+    <script>
+        const loginBtn = document.getElementById('loginBtn');
+
+        loginBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            // Check if user exists in localStorage
+            const storedUser = localStorage.getItem('user_' + email);
+            if (storedUser) {
+                const user = JSON.parse(storedUser);
+                if (user.password === password) {
+                    alert('Login successful! Welcome ' + user.name);
+
+                    // Set global loggedInUser key for navbar
+                    localStorage.setItem('loggedInUser', JSON.stringify({ name: user.name, email: email }));
+
+                    window.location.href = 'index.html'; // redirect to homepage
+                } else {
+                    alert('Incorrect password!');
+                }
+            } else {
+                alert('User not found! Please signup first.');
+            }
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Electro Shop</a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <!--<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Signup.html">Signup</a></li>-->
+                    <!--<li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>-->
+                    <li class="nav-item" id="navLogout" style="display:none;"><a class="nav-link" href="#" id="logoutLink">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="logsign-container">
+        <img class="banner-image mainimg" src="https://static.wixstatic.com/media/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png/v1/fill/w_1268,h_819,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png" />
+        <form id="signupForm" class="needs-validation logsign" novalidate>
+            <div class="card shadow signupCard">
+                <div class="card-body">
+                    <h2 class="text-center mb-3 text-white pb-2 text-decoration-underline">Signup</h2>
+
+                    <p class="form-label text-white">Enter Your Name :</p>
+                    <input type="text" class="form-control  mb-3 signupInp bg-black" id="signupName" placeholder="Enter Your Name" required>
+
+                    <p class="form-label text-white">Enter Your Email :</p>
+                    <input type="email" class="form-control  mb-3 signupInp bg-black" id="signupEmail" placeholder="Enter Your Email" required>
+
+                    <p class="form-label text-white">Create Password :</p>
+                    <input type="password" class="form-control  mb-3 signupInp bg-black" id="signupPassword" placeholder="Create Password" required>
+
+                    <button type="submit" class="btn text-white w-100 mt-3 signupBtn">Create Account</button>
+
+                    <p class="text-center mt-3 text-white">
+                        Already have an account? <a href="login.html" class="text-white">Login</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+   
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+
+        signupForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get values
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            if (!name || !email || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            // Save user in localStorage
+            const user = { name, email, password };
+            localStorage.setItem('user_' + email, JSON.stringify(user));
+
+            alert('Signup successful! You can now login.');
+            window.location.href = 'login.html';
+        });
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>
