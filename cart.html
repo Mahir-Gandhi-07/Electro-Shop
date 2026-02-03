@@ -28,17 +28,13 @@
                     <li class="nav-item"><a class="nav-link" href="Signup.html">Signup</a></li>
                     <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>-->
                     <li class="nav-item"><a class="nav-link" href="index.html">Add More Items</a></li>
+                    <li class="nav-item" id="navOrder"><a class="nav-link " href="order.html">My Orders</a></li>
                     <li class="nav-item" id="navLogout"><a class="nav-link" href="#" id="logoutLink">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!--<div class="cart-container">
-        <img class="banner-image" src="https://static.wixstatic.com/media/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png/v1/fill/w_1268,h_819,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/84770f_93b300330b3742f2b1948ef292a91f27~mv2_d_1920_1279_s_2.png" />-->
-
-
-    <!--</div>-->
     <div >
         <div class="container cart-container ">
 
@@ -107,7 +103,7 @@
                         <p class="d-flex justify-content-between fs-5">
                             <span>Total</span><strong id="total">$0</strong>
                         </p>
-                        <button class="btn btn-outline-success w-100">Buy</button>
+                        <button class="btn btn-outline-success w-100 buy" id="buy">Buy</button>
                     </div>
                 </div>
             </div>
@@ -117,6 +113,66 @@
 
 
     <script>
+
+        const buyButton = document.querySelector(".buy");
+
+        buyButton.addEventListener('click', () => {
+
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert("Please login first");
+                return;
+            }
+
+            const email = JSON.parse(loggedInUser).email;
+
+            const CART_KEY = 'cart' + email;
+            const ORDER_KEY = 'orders' + email;
+
+            let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            if (!cart.length) { // safer check
+                alert("Cart is empty");
+                return;
+            }
+
+            //  Calculate totals
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+            });
+
+            let shipping = subtotal > 0 ? 10 : 0;
+            let total = subtotal + shipping;
+
+            //  Create ONE order
+            const newOrder = {
+                orderId: "ORD-" + Date.now(),
+                date: new Date().toLocaleString(),
+                items: cart,
+                subtotal: subtotal,
+                shipping: shipping,
+                total: total
+            };
+
+            let orders = JSON.parse(localStorage.getItem(ORDER_KEY)) || [];
+            orders.unshift(newOrder); // add new order at the top
+
+            // Save orders
+            localStorage.setItem(ORDER_KEY, JSON.stringify(orders));
+
+            // Clear cart
+            localStorage.removeItem(CART_KEY);
+
+            alert("Order placed successfully!");
+
+            // Redirect to orders page
+            window.location.href = "order.html";
+        });
+
+
+
+
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const navLogout = document.getElementById('navLogout'); // logout menu item
